@@ -1,3 +1,0 @@
-Pour cloner le dépôt git, créez vous un dossier, déplacez vous dedans et faites la commande : git clone http://gitlab.minet.net/thunder/me.git
-
-Penser à faire un git fetch origin pour avoir toutes les branches distantes !
