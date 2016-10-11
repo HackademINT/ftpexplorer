@@ -56,6 +56,7 @@ class FTPScanner:
                 # On essaie de s'y connecter avec FTP pour verifier que c'est bien un serveur FTP
                 try:
                     ftp = FTP(host, timeout=1)
+                    ftp.login()
                 except:
                     print("FTPScan: Could not connect to FTP server " + host, sys.exc_info()[0])
                 else:
