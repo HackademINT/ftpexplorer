@@ -58,7 +58,8 @@ class FTPScanner:
                     ftp = FTP(host, timeout=1)
                     ftp.login()
                 except:
-                    print("FTPScan: Could not connect to FTP server " + host, sys.exc_info()[0])
+                    True # On ignore le serveur ou on ne peut pas se connecter
+                    #print("FTPScan: Could not connect to FTP server " + host, sys.exc_info()[0])
                 else:
                     ftp.quit()
                     hostsWithFTP += [host]
