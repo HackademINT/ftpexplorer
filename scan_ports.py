@@ -60,7 +60,7 @@ class FTPScanner:
                 except:
                     print("FTPScan: Could not connect to FTP server " + host, sys.exc_info()[0])
                 else:
-                    ftp.close()
+                    ftp.quit()
                     hostsWithFTP += [host]
 
         return hostsWithFTP
