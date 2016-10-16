@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 import os
 import nmap
@@ -21,6 +21,7 @@ class FTPScanner:
         self.setAddressRange( range )	
 
         # Creation de l'instance de nmap
+
         try:
             self.nmap = nmap.PortScanner()
         except nmap.PortScannerError:
