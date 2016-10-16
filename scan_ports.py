@@ -18,13 +18,13 @@ class FTPScanner:
         Constructeur, prend en argument optionnel la plage d'adresse a scanner
         """
 
-        self.setAddressRange( range )
+        self.setAddressRange( range )	
 
         # Creation de l'instance de nmap
         try:
             self.nmap = nmap.PortScanner()
         except nmap.PortScannerError:
-            raise Exception('Nmap not found', sys.exc_info()[0])
+            raise Exception('Nmap not found', sys.exc_info())
 
         except:
             raise Exception("FTPScanner init: Unexpected error:", sys.exc_info()[0])
@@ -58,7 +58,7 @@ class FTPScanner:
                     ftp = FTP(host, timeout=1)
                     ftp.login()
                 except:
-                    print("FTPScan: Could not connect to FTP server " + host, sys.exc_info()[0])
+                    print("FTPScan: Could not connect to FTP server " + host, sys.exc_info())
                 else:
                     ftp.close()
                     hostsWithFTP += [host]
