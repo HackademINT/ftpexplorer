@@ -25,7 +25,7 @@ class FTPScanner:
         try:
             self.nmap = nmap.PortScanner()
         except nmap.PortScannerError:
-            raise Exception('Nmap not found', sys.exc_info())
+            raise Exception('Nmap not found', sys.exc_info()[0])
 
         except:
             raise Exception("FTPScanner init: Unexpected error:", sys.exc_info()[0])
@@ -59,7 +59,7 @@ class FTPScanner:
                     ftp = FTP(host, timeout=1)
                     ftp.login()
                 except:
-                    print("FTPScan: Could not connect to FTP server " + host, sys.exc_info())
+                    print("FTPScan: Could not connect to FTP server " + host, sys.exc_info()[0])
                 else:
                     ftp.close()
                     hostsWithFTP += [host]
