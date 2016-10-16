@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from ftplib import FTP
+import os
 class Recherche:
 
     
@@ -7,13 +8,16 @@ class Recherche:
         """Constructeur de notre classe"""
         self.range = range
         self.usrsearch = charset
+
     def affichedoc(self):
     	ftp = FTP(self.range)
         ftp.login()
-        print ftp.dir()
+        listmaindir=[]
+        for i in ftp.nlst():
+        	listmaindir.append(ftp.nlst(i))
         ftp.close()
-        return()
+        return(listmaindir)
 
 
 michel = Recherche("157.159.42.42","Belliard")
-michel.affichedoc()
+print(michel.affichedoc())
