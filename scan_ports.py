@@ -1,6 +1,5 @@
 
 #!/usr/bin/env python
->>>>>>> 134f48fea077d288c19e1a3d4350954e7c8f5078
 
 import os
 import nmap
