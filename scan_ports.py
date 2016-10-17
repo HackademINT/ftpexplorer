@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 
 import os
@@ -18,9 +19,10 @@ class FTPScanner:
         Constructeur, prend en argument optionnel la plage d'adresse a scanner
         """
 
-        self.setAddressRange( range )
+        self.setAddressRange( range )	
 
         # Creation de l'instance de nmap
+
         try:
             self.nmap = nmap.PortScanner()
         except nmap.PortScannerError:
