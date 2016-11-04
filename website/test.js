@@ -11,7 +11,13 @@ socket.on("connect", function() {
         
         // On quitte apres avoir recu la reponse
         console.log("Got a response !");
-        document.getElementById("result").innerHTML = data;
+        var files = JSON.parse(data);
+        document.getElementById("result").innerHTML = "<ul>"
+        for( var i in files ) {
+            document.getElementById("result").innerHTML += "<li>"+files[i]+"</li>"
+        }
+        document.getElementById("result").innerHTML += "</ul>";
+        
         socket.disconnect();
     });
 
