@@ -5,7 +5,7 @@ Projet ME
 Le projet **ME** consiste à développer une application pour permettre une recherche de fichiers facile parmi tous les serveurs FTP présents sur le réseau de MiNET.
 
 
-Comment cloner le dépôt ?
+Comment accéder aux fichiers de **ME** ?
 -------------
 
 Pour cloner le dépôt git, créez vous un dossier, déplacez vous dedans et faites la commande : git clone http://gitlab.minet.net/thunder/me.git
