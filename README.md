@@ -4,6 +4,10 @@ Projet ME
 
 Le projet **ME** consiste à développer une application pour permettre une recherche de fichiers facile parmi tous les serveurs FTP présents sur le réseau de MiNET.
 
+Vous connaissez rien en programmation objet et en classe ?
+-----------------
+
+http://apprendre-python.com/page-apprendre-programmation-orientee-objet-poo-classes-python-cours-debutants
 
 Comment accéder aux fichiers de **ME** ?
 -------------
