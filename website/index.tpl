@@ -29,13 +29,13 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+        <script> var ftp_servers = [{{!ftpserv}}]; </script>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-        <script src="maiselexplorer.js"></script>
-
+        <script src="js/maiselexplorer.js"></script>
   </head>
 
   <body>
-
+    {{ftpserv}}
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -92,6 +92,7 @@
                 </tr>
               </thead>
               <tbody id="me_fichiers">
+                <!--
                 <tr>
                     <td>Trueman show</td>
                     <td>10/10/2010</td>
@@ -126,7 +127,7 @@
                     <td>30 GiB</td>
                     <td><button type="button" class="btn btn-primary">Télécharger</button></td>
                 </tr>
-
+                -->
 
 
               </tbody>

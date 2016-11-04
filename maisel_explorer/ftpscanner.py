@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 
 import os
@@ -19,7 +18,7 @@ class FTPScanner:
         Constructeur, prend en argument optionnel la plage d'adresse a scanner
         """
 
-        self.setAddressRange( range )	
+        self.setAddressRange( range )
 
         # Creation de l'instance de nmap
 
@@ -68,7 +67,3 @@ class FTPScanner:
 
         return hostsWithFTP
 
-s = FTPScanner("157.159.41-49.0/24")
-print("Machines avec un serveur FTP sur la plage: "+s.getAddressRange())
-for addr in s.scan():
-    print(" - " + addr)

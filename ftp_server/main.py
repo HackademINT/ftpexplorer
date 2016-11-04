@@ -29,8 +29,9 @@ class RemoteMEServer:
         directories = {}
         for element in os.scandir(path):
             if element.is_file():
+                stats = os.stat(path + "/" + element.name)
+                self.fileList += [ (element.name, stats.st_size, stats.st_mtime) ]
                 files += [element.name]
-                self.fileList += [element.name]
             else:
                 directories[element.name] = self._exploreRecursive( path + "/" + element.name)
         return [directories, files]
