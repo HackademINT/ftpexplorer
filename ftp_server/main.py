@@ -21,13 +21,23 @@ class RemoteMEServer:
         self.explore()
 
     def explore( self ):
+        """
+        Cette fonction permet de referencer tous les fichiers sur le ftp en les
+        mettant dans une table et en construisant un arbre avec leur chemin
+        """
         self.fileList = []
         self.fileTree = self._exploreRecursive( self.ftpPath )
 
+
     def _exploreRecursive( self, path ):
+        """
+        Methode privee, recursive permettant de construire l'arbre et de
+        chercher tous les fichiers
+        """
+
         files = []
         directories = {}
-        for element in os.scandir(path):
+        for element in os.scandir(repr(path)[1:-1]): # On escape les caracteres
             if element.is_file():
                 stats = os.stat(path + "/" + element.name)
                 self.fileList += [ (element.name, stats.st_size, stats.st_mtime) ]
@@ -57,13 +67,21 @@ class RemoteMEServer:
 
         @sio.on("me_getFiles", namespace="/me")
         def getfiles_handler( client ):
-            print( str(client) + " requested the list of the files.")
-            print(json.dumps(self.fileList))
-            return json.dumps( self.fileList )
-            #return "Ce bout de texte est téléchargé par le client grâce à un bout de javascript qui va faire une requête au serveur géré en python."
+            fl = json.dumps( self.fileList[:100] ) # On limite temporairement a 100 le nb de fichiers envoyes
+            print( str(client) + " requested the list of the files. (100/"+str(len(self.fileList))+" files, "+str(len(fl))+"B)")
+            return fl
+
+        @sio.on("me_search", namespace="/me")
+        def search_handler( client, text):
+            print( str(client) + " searched " + text)
+            result = []
+            for f in self.fileList:
+                if f[0].find(text) != -1:
+                    result += [f]
+            return json.dumps( result[:100] )
 
         eventlet.wsgi.server(eventlet.listen(('', self.port)), app)
 
 if __name__ == "__main__":
-    server = RemoteMEServer( 9999, "/tmp/ftp" )
+    server = RemoteMEServer( 9999, "/tmp/" )
     server.run()

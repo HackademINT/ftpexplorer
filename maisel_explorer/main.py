@@ -8,18 +8,20 @@ from ftpscanner import *
 from bottle import route, run, static_file, template
 import bottle
 
-
+print("Scanning the network...")
 scanner = FTPScanner("157.159.41-49.0/24")
 addressStr = ''
-scan = scanner.scan()
+#scan = scanner.scan()
+scan = []
+print("FTP servers online:")
 for i in range(len(scan)):
     addr = scan[i]
+    print(" - " + addr)
     if i != 0:
         addressStr += ","
     addressStr += "\"" + addr + "\""
 
 
-print(addressStr)
 bottle.TEMPLATE_PATH += ["../website"]
 
 @route('/<filepath:path>')
