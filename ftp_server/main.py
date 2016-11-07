@@ -2,7 +2,7 @@
 
 import socketio
 import eventlet
-import os
+import os,sys
 import json
 
 class RemoteMEServer:
@@ -83,5 +83,11 @@ class RemoteMEServer:
         eventlet.wsgi.server(eventlet.listen(('', self.port)), app)
 
 if __name__ == "__main__":
-    server = RemoteMEServer( 9999, "/tmp/" )
+    path = ""
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+    else:
+        print("Missing argument, you must specify the path of the folder containing the FTP files")
+        exit()
+    server = RemoteMEServer( 9999, "/tmp/ftp" )
     server.run()

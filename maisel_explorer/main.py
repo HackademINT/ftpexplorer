@@ -11,8 +11,7 @@ import bottle
 print("Scanning the network...")
 scanner = FTPScanner("157.159.41-49.0/24")
 addressStr = ''
-#scan = scanner.scan()
-scan = []
+scan = scanner.scan()
 print("FTP servers online:")
 for i in range(len(scan)):
     addr = scan[i]
