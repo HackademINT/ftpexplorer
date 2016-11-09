@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-import socketio
-import eventlet
-import os,sys
-import json
-
 """
  Ceci est le script qui sera execute sur les serveurs FTP.
 
@@ -16,9 +11,18 @@ import json
  - python-socketio
 
 """
+
+import socketio
+import eventlet
+import os,sys
+import json
+import threading
+import time
+
 # Port sur lequel le serveur ecoutera. Si vous modifiez cette variable, pensez
 # a la modifier aussi dans le javascript du client.
 APP_PORT = 9999
+SCAN_TIME = 10 # Toutes les SCAN_TIME secondes, le serveur explorera les fichiers en local
 
 class RemoteMEServer:
 
@@ -100,6 +104,50 @@ class RemoteMEServer:
         # On lance le serveur
         eventlet.wsgi.server(eventlet.listen(('', self.port)), app)
 
+class ThreadMEServer( threading.Thread ):
+    """
+    Thread qui permet d'herberger le serveur ME
+    """
+
+    def __init__(self, serv):
+        """
+        Constructeur
+        """
+        self.server = serv
+        threading.Thread.__init__(self) # Initialisation du thread
+
+    def run(self):
+        """
+        Lance le serveur pendant le thread
+        """
+        print("[SERVER] Running the server")
+        self.server.run()
+
+class ThreadMEScan( threading.Thread ):
+    """
+    Thread qui permet de scanner les fichiers en local
+    """
+
+    def __init__(self, serv):
+        """
+        Constructeur
+        """
+        self.shouldRun = True
+        self.server = serv
+        threading.Thread.__init__(self) # Initialisation du thread
+
+    def run(self):
+        """
+        Force l'actualisation des fichiers
+        """
+        while self.shouldRun:
+            print("[SCAN] Exploring...")
+            self.server.explore()
+            time.sleep( SCAN_TIME )
+
+    def stop(self):
+        self.shouldRun = False
+
 if __name__ == "__main__":
 
     path = ""
@@ -110,4 +158,14 @@ if __name__ == "__main__":
         exit()
 
     server = RemoteMEServer( APP_PORT, path )
-    server.run()
+    threadMEServer = ThreadMEServer( server )
+    threadMEScan = ThreadMEScan( server )
+
+    threadMEServer.start()
+    threadMEScan.start()
+
+    threadMEServer.join() # On attend la fin du serveur
+
+    threadMEScan.stop()
+    threadMEScan.join()
+
