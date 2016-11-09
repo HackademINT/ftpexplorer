@@ -5,6 +5,21 @@ import eventlet
 import os,sys
 import json
 
+"""
+ Ceci est le script qui sera execute sur les serveurs FTP.
+
+ ROLES:
+ - Repondre aux requetes emises par le javascript executes sur le navigateur
+ des clients. Le client pourra faire des recherches ou filtrer les fichiers
+
+ MODULES EXTERNES:
+ - python-socketio
+
+"""
+# Port sur lequel le serveur ecoutera. Si vous modifiez cette variable, pensez
+# a la modifier aussi dans le javascript du client.
+APP_PORT = 9999
+
 class RemoteMEServer:
 
     """
@@ -61,15 +76,17 @@ class RemoteMEServer:
         def disconnect_handler(client):
             print( str(client) + " was disconnected.")
 
+        # On log les connexions
         @sio.on('connect', namespace='/me')
         def connect_handler(client, environ):
             print( str(client) + " connected." )
 
         @sio.on("me_getFiles", namespace="/me")
         def getfiles_handler( client ):
-            fl = json.dumps( self.fileList[:100] ) # On limite temporairement a 100 le nb de fichiers envoyes
-            print( str(client) + " requested the list of the files. (100/"+str(len(self.fileList))+" files, "+str(len(fl))+"B)")
-            return fl
+            # On limite temporairement a 100 le nb de fichiers envoyes
+            fl = json.dumps( self.fileList[:100] )
+            print( str(client) + " requested the list of the files. (" + str(min(len(self.fileList),100)) + "/"+str(len(self.fileList))+" files, "+str(len(fl))+"B)")
+            return fl # On renvoie en JSON la liste des fichiers+leurs attributs
 
         @sio.on("me_search", namespace="/me")
         def search_handler( client, text):
@@ -80,14 +97,17 @@ class RemoteMEServer:
                     result += [f]
             return json.dumps( result[:100] )
 
+        # On lance le serveur
         eventlet.wsgi.server(eventlet.listen(('', self.port)), app)
 
 if __name__ == "__main__":
+
     path = ""
     if len(sys.argv) > 1:
         path = sys.argv[1]
     else:
         print("Missing argument, you must specify the path of the folder containing the FTP files")
         exit()
-    server = RemoteMEServer( 9999, "/tmp/ftp" )
+
+    server = RemoteMEServer( APP_PORT, path )
     server.run()
