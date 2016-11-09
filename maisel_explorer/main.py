@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Ceci est le script qui sera execute sur le serveur ME.
